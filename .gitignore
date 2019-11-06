@@ -1,0 +1,55 @@
+#ignore .metadata
+.metadata
+#ignore obj and lib file
+*.[oa]
+
+
+#ignore temp files
+*.swp
+*.temp
+*.tmp
+*.DS_Store
+*~
+
+#ignore visualstudio tmp files
+*.mod
+*.elf
+*.dll
+*.lib
+*.dylib
+*.suo
+*.ncb
+*.exp
+*.ilk
+*.pdb
+*.sdf
+*.bak
+*.dep
+*.opensdf
+/Debug/
+
+#python
+*.pyc
+
+#tag
+tags
+cscope*
+
+#ignore android project files
+*.properties
+build.xml
+proguard-project.txt
+
+#ignore android building directory
+/obj/
+/gen/
+/bin/
+/build*/
+*/build/
+/*build/
+/output/
+install/
+/hal/doc/
+.vscode/
+.idea/
+
