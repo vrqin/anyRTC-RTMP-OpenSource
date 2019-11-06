@@ -30,8 +30,8 @@ public class AnyRTMP {
      * 加载api所需要的动态库
      */
     static {
-        System.loadLibrary("faac");
-        System.loadLibrary("faad2");
+        // System.loadLibrary("faac");
+        // System.loadLibrary("faad2");
         System.loadLibrary("openh264");
         System.loadLibrary("anyrtmp-jni");
     }

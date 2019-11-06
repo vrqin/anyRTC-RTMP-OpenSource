@@ -1,0 +1,9 @@
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/CMakeFiles/rebuild_cache.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/CMakeFiles/edit_cache.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/CMakeFiles/anyrtmp-jni.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/libanycore.bin/CMakeFiles/rebuild_cache.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/libanycore.bin/CMakeFiles/edit_cache.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/libanycore.bin/CMakeFiles/anycore.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/libwebrtc.bin/CMakeFiles/rebuild_cache.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/libwebrtc.bin/CMakeFiles/edit_cache.dir
+/home/shanli/workspace/cpp/webrtc/anyrtc/Prj-Android/app/src/main/cpp/build/android/libwebrtc.bin/CMakeFiles/webrtc.dir

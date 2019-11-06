@@ -71,6 +71,10 @@
 #endif
 #endif  // defined(WEBRTC_MAC)
 
+#if !defined(PRIu64)
+#define PRIu64 "llu"
+#endif
+
 #else  // WEBRTC_WIN
 
 #include <inttypes.h>

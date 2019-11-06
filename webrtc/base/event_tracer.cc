@@ -117,7 +117,11 @@ class EventLogger final {
                 "%s{ \"name\": \"%s\""
                 ", \"cat\": \"%s\""
                 ", \"ph\": \"%c\""
+#if defined(WEBRTC_WIN)
                 ", \"ts\": %" PRIu64
+#else
+                ", \"ts\": %llu"
+#endif
                 ", \"pid\": %d"
 #if defined(WEBRTC_WIN)
                 ", \"tid\": %lu"

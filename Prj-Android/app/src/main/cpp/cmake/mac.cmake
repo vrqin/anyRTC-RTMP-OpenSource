@@ -1,0 +1,21 @@
+set(POSIX True CACHE BOOL "posix platform")
+set(MAC True CACHE BOOL "mac platform")
+set(PLATFORM "mac" CACHE STRING "")
+
+set(PLATFORM_HAS_DYNAMIC_LIB False CACHE BOOL "support dynamic library")
+#set(BROAD True CACHE BOOL "BROAD")
+
+set(BUILD_CODEC True CACHE BOOL "")
+set(BUILD_TEST True CACHE BOOL "")
+
+set(HAS_AT False CACHE BOOL "")
+set(HAL_HAS_DSP False CACHE BOOL "")
+set(HAL_HAS_TONE False CACHE BOOL "")
+set(HAL_HAS_TTS	False CACHE BOOL "")
+set(HAL_HAS_LOCATION False CACHE BOOL "")
+set(HAL_HAS_PIPE True CACHE BOOL "")
+set(HAL_USE_PINYIN_FILE False CACHE BOOL "")
+
+set(HAS_PLAY_TONE_UTIL_AUDIO False CACHE BOOL "")
+
+set(PLATFORM_LIBS m CACHE STRING "")

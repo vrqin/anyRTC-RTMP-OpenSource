@@ -1,139 +1,70 @@
-cmake_minimum_required(VERSION 2.8)
 
-# CMakeLists for libyuv
-# Originally created for "roxlu build system" to compile libyuv on windows
-# Run with -DTEST=ON to build unit tests
-option(TEST "Built unit tests" OFF)
 
-set(ly_base_dir ${CMAKE_CURRENT_LIST_DIR})
-set(ly_src_dir ${ly_base_dir}/source/)
-set(ly_inc_dir ${ly_base_dir}/include)
-set(ly_lib_name "yuv")
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10.2)
+project(yuv_static)
 
-set(ly_source_files
-  ${ly_src_dir}/compare.cc
-  ${ly_src_dir}/compare_common.cc
-  ${ly_src_dir}/compare_neon.cc
-  ${ly_src_dir}/compare_neon64.cc
-  ${ly_src_dir}/compare_gcc.cc
-  ${ly_src_dir}/compare_win.cc
-  ${ly_src_dir}/convert.cc
-  ${ly_src_dir}/convert_argb.cc
-  ${ly_src_dir}/convert_from.cc
-  ${ly_src_dir}/convert_from_argb.cc
-  ${ly_src_dir}/convert_jpeg.cc
-  ${ly_src_dir}/convert_to_argb.cc
-  ${ly_src_dir}/convert_to_i420.cc
-  ${ly_src_dir}/cpu_id.cc
-  ${ly_src_dir}/mjpeg_decoder.cc
-  ${ly_src_dir}/mjpeg_validate.cc
-  ${ly_src_dir}/planar_functions.cc
-  ${ly_src_dir}/rotate.cc
-  ${ly_src_dir}/rotate_any.cc
-  ${ly_src_dir}/rotate_argb.cc
-  ${ly_src_dir}/rotate_common.cc
-  ${ly_src_dir}/rotate_mips.cc
-  ${ly_src_dir}/rotate_neon.cc
-  ${ly_src_dir}/rotate_neon64.cc
-  ${ly_src_dir}/rotate_gcc.cc
-  ${ly_src_dir}/rotate_win.cc
-  ${ly_src_dir}/row_any.cc
-  ${ly_src_dir}/row_common.cc
-  ${ly_src_dir}/row_mips.cc
-  ${ly_src_dir}/row_neon.cc
-  ${ly_src_dir}/row_neon64.cc
-  ${ly_src_dir}/row_gcc.cc
-  ${ly_src_dir}/row_win.cc
-  ${ly_src_dir}/scale.cc
-  ${ly_src_dir}/scale_any.cc
-  ${ly_src_dir}/scale_argb.cc
-  ${ly_src_dir}/scale_common.cc
-  ${ly_src_dir}/scale_mips.cc
-  ${ly_src_dir}/scale_neon.cc
-  ${ly_src_dir}/scale_neon64.cc
-  ${ly_src_dir}/scale_gcc.cc
-  ${ly_src_dir}/scale_win.cc
-  ${ly_src_dir}/video_common.cc
+set(ENABLE_NEON True)
+
+#-std=gnu++11 -frtti -Wno-literal-suffix -DWEBRTC_POSIX -DWEBRTC_ANDROID -DWEBRTC_INCLUDE_INTERNAL_AUDIO_DEVICE -D__STDC_CONSTANT_MACROS 
+# set(CMAKE_C_FLAGS "-frtti -Wno-literal-suffix ${CMAKE_C_FLAGS}")
+# set(CMAKE_CXX_FLAGS "-std=gnu++11 -frtti -Wno-literal-suffix ${CMAKE_CXX_FLAGS}")
+# add_definitions(-DWEBRTC_POSIX -DWEBRTC_ANDROID -DWEBRTC_INCLUDE_INTERNAL_AUDIO_DEVICE -D__STDC_CONSTANT_MACROS)
+
+set(SOURCES 
+    source/compare.cc
+    source/compare_common.cc
+    source/compare_neon64.cc
+    source/compare_gcc.cc   
+    source/convert.cc       
+    source/convert_argb.cc  
+    source/convert_from.cc  
+    source/convert_from_argb.cc
+    source/convert_to_argb.cc  
+    source/convert_to_i420.cc  
+    source/cpu_id.cc        
+    source/planar_functions.cc 
+    source/rotate.cc        
+    source/rotate_any.cc    
+    source/rotate_argb.cc   
+    source/rotate_common.cc 
+    source/rotate_mips.cc   
+    source/rotate_neon64.cc 
+    source/rotate_gcc.cc    
+    source/row_any.cc       
+    source/row_common.cc    
+    source/row_mips.cc      
+    source/row_neon64.cc    
+    source/row_gcc.cc	    
+    source/scale.cc         
+    source/scale_any.cc     
+    source/scale_argb.cc    
+    source/scale_common.cc  
+    source/scale_mips.cc    
+    source/scale_neon64.cc  
+    source/scale_gcc.cc     
+    source/video_common.cc
 )
 
-set(ly_unittest_sources
-  ${ly_base_dir}/unit_test/basictypes_test.cc
-  ${ly_base_dir}/unit_test/color_test.cc
-  ${ly_base_dir}/unit_test/compare_test.cc
-  ${ly_base_dir}/unit_test/convert_test.cc
-  ${ly_base_dir}/unit_test/cpu_test.cc
-  ${ly_base_dir}/unit_test/math_test.cc
-  ${ly_base_dir}/unit_test/planar_test.cc
-  ${ly_base_dir}/unit_test/rotate_argb_test.cc
-  ${ly_base_dir}/unit_test/rotate_test.cc
-  ${ly_base_dir}/unit_test/scale_argb_test.cc
-  ${ly_base_dir}/unit_test/scale_test.cc
-  ${ly_base_dir}/unit_test/unit_test.cc
-  ${ly_base_dir}/unit_test/video_common_test.cc
-  ${ly_base_dir}/unit_test/version_test.cc
-)
+# TODO(fbarchard): Enable mjpeg encoder.
+#   source/mjpeg_decoder.cc
+#   source/convert_jpeg.cc
+#   source/mjpeg_validate.cc
 
-set(ly_header_files
-  ${ly_inc_dir}/libyuv/basic_types.h
-  ${ly_inc_dir}/libyuv/compare.h
-  ${ly_inc_dir}/libyuv/convert.h
-  ${ly_inc_dir}/libyuv/convert_argb.h
-  ${ly_inc_dir}/libyuv/convert_from.h
-  ${ly_inc_dir}/libyuv/convert_from_argb.h
-  ${ly_inc_dir}/libyuv/cpu_id.h
-  ${ly_inc_dir}/libyuv/planar_functions.h
-  ${ly_inc_dir}/libyuv/rotate.h
-  ${ly_inc_dir}/libyuv/rotate_argb.h
-  ${ly_inc_dir}/libyuv/rotate_row.h
-  ${ly_inc_dir}/libyuv/row.h
-  ${ly_inc_dir}/libyuv/scale.h
-  ${ly_inc_dir}/libyuv/scale_argb.h
-  ${ly_inc_dir}/libyuv/scale_row.h
-  ${ly_inc_dir}/libyuv/version.h
-  ${ly_inc_dir}/libyuv/video_common.h
-  ${ly_inc_dir}/libyuv/mjpeg_decoder.h
-)
+# if (ENABLE_NEON)
+#     add_definitions(-DLIBYUV_NEON)
 
-include_directories(${ly_inc_dir})
+#     set(SOURCES ${SOURCES}
+#         source/compare_neon.cc
+#         source/rotate_neon.cc
+#         source/row_neon.cc
+#         source/scale_neon.cc
+#     )
+# endif()
 
-add_library(${ly_lib_name} STATIC ${ly_source_files})
+add_library(yuv_static STATIC ${SOURCES})
 
-add_executable(convert ${ly_base_dir}/util/convert.cc)
-target_link_libraries(convert ${ly_lib_name})
+target_include_directories(yuv_static PUBLIC
+    include
+	)
 
-include(FindJPEG)
-if (JPEG_FOUND)
-  include_directories(${JPEG_INCLUDE_DIR})
-  target_link_libraries(convert ${JPEG_LIBRARY})
-  add_definitions(-DHAVE_JPEG)
-endif()
-
-if(TEST)
-  find_library(GTEST_LIBRARY gtest)
-  if(GTEST_LIBRARY STREQUAL "GTEST_LIBRARY-NOTFOUND")
-    set(GTEST_SRC_DIR /usr/src/gtest)
-    if(EXISTS ${GTEST_SRC_DIR}/src/gtest-all.cc)
-      message(STATUS "building gtest from sources in ${GTEST_SRC_DIR}")
-      set(gtest_sources ${GTEST_SRC_DIR}/src/gtest-all.cc)
-      add_library(gtest STATIC ${gtest_sources})
-      include_directories(${GTEST_SRC_DIR})
-      set(GTEST_LIBRARY gtest)
-    else()
-      message(FATAL_ERROR "TEST is set but unable to find gtest library")
-    endif()
-  endif()
-
-  add_executable(libyuv_unittest ${ly_unittest_sources})
-  target_link_libraries(libyuv_unittest ${ly_lib_name} ${GTEST_LIBRARY} pthread)
-  if (JPEG_FOUND)
-    target_link_libraries(libyuv_unittest ${JPEG_LIBRARY})
-  endif()
-endif()
-
-if(NACL AND NACL_LIBC STREQUAL "newlib")
-  target_link_libraries(libyuv_unittest glibc-compat)
-endif()
-
-install(TARGETS ${ly_lib_name} DESTINATION lib)
-install(FILES ${ly_header_files} DESTINATION include/libyuv)
-install(FILES ${ly_inc_dir}/libyuv.h DESTINATION include/)
+# target_link_libraries(yuv_static PUBLIC m)

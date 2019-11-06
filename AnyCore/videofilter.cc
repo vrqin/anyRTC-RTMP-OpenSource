@@ -16,7 +16,7 @@
 * your programs, too.
 * See the GNU LICENSE file for more info.
 */
-#include "VideoFilter.h"
+#include "videofilter.h"
 
 static uint32_t sFpsCt = 0;
 

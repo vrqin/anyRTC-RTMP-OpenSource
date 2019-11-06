@@ -1,0 +1,28 @@
+set(POSIX True CACHE BOOL "posix platform")
+set(LINUX True CACHE BOOL "linux platform")
+set(PLATFORM "linux" CACHE STRING "")
+
+set(PLATFORM_HAS_DYNAMIC_LIB False CACHE BOOL "support dynamic library")
+#set(BROAD True CACHE BOOL "BROAD")
+
+set(BUILD_CODEC True CACHE BOOL "")
+set(BUILD_TEST True CACHE BOOL "")
+
+set(HAS_AT False CACHE BOOL "")
+set(HAL_HAS_DSP True CACHE BOOL "")
+set(HAL_HAS_TONE False CACHE BOOL "")
+set(HAL_HAS_TTS	False CACHE BOOL "")
+set(HAL_HAS_LOCATION False CACHE BOOL "")
+set(HAL_HAS_PIPE True CACHE BOOL "")
+set(HAL_USE_PINYIN_FILE False CACHE BOOL "")
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lasound" CACHE STRING "LDFlags for OPENLINUX")
+
+
+set(PLATFORM_LIBRARIES m CACHE STRING "")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+set(CMAKE_BUILD_TYPE Debug CACHE STRING "set build type to debug")  
+
+set(INSTALL_HEADERS True CACHE BOOL "")
+set(INSTALL_LIBS True CACHE BOOL "")
+set(INSTALL_SOURCE False CACHE BOOL "")

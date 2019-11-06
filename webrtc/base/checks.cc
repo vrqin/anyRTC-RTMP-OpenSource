@@ -18,7 +18,7 @@
 
 #if defined(__GLIBCXX__) && !defined(__UCLIBC__)
 #include <cxxabi.h>
-#include <execinfo.h>
+// #include <execinfo.h>
 #endif
 
 #if defined(WEBRTC_ANDROID)
@@ -39,6 +39,59 @@
 #pragma warning(disable:4722)
 #endif
 
+#include <iostream>
+#include <iomanip>
+
+#include <unwind.h>
+#include <dlfcn.h>
+
+namespace {
+
+struct BacktraceState
+{
+    void** current;
+    void** end;
+};
+
+static _Unwind_Reason_Code unwindCallback(struct _Unwind_Context* context, void* arg)
+{
+    BacktraceState* state = static_cast<BacktraceState*>(arg);
+    uintptr_t pc = _Unwind_GetIP(context);
+    if (pc) {
+        if (state->current == state->end) {
+            return _URC_END_OF_STACK;
+        } else {
+            *state->current++ = reinterpret_cast<void*>(pc);
+        }
+    }
+    return _URC_NO_REASON;
+}
+
+}
+
+size_t captureBacktrace(void** buffer, size_t max)
+{
+    BacktraceState state = {buffer, buffer + max};
+    _Unwind_Backtrace(unwindCallback, &state);
+
+    return state.current - buffer;
+}
+
+void dumpBacktrace(std::ostream& os, void** buffer, size_t count)
+{
+    for (size_t idx = 0; idx < count; ++idx) {
+        const void* addr = buffer[idx];
+        const char* symbol = "";
+
+        Dl_info info;
+        if (dladdr(addr, &info) && info.dli_sname) {
+            symbol = info.dli_sname;
+        }
+
+        os << "  #" << std::setw(2) << idx << ": " << addr << "  " << symbol << "\n";
+    }
+}
+
 namespace rtc {
 
 void VPrintError(const char* format, va_list args) {
@@ -56,6 +109,7 @@ void PrintError(const char* format, ...) {
   va_end(args);
 }
 
+#if 0
 // TODO(ajm): This works on Mac (although the parsing fails) but I don't seem
 // to get usable symbols on Linux. This is copied from V8. Chromium has a more
 // advanced stace trace system; also more difficult to copy.
@@ -88,6 +142,7 @@ void DumpBacktrace() {
   free(symbols);
 #endif
 }
+#endif
 
 FatalMessage::FatalMessage(const char* file, int line) {
   Init(file, line);
@@ -104,7 +159,13 @@ NO_RETURN FatalMessage::~FatalMessage() {
   fflush(stderr);
   stream_ << std::endl << "#" << std::endl;
   PrintError(stream_.str().c_str());
-  DumpBacktrace();
+  // DumpBacktrace();
+  {
+    const size_t max = 30;
+    void* buffer[max];
+    dumpBacktrace(stream_, buffer, captureBacktrace(buffer, max));
+  }
+  
   fflush(stderr);
   abort();
 }

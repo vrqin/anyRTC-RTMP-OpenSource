@@ -15,6 +15,9 @@
 #ifndef WEBRTC_SPL_SPL_INL_H_
 #define WEBRTC_SPL_SPL_INL_H_
 
+#define INT32_MIN        (-2147483647-1)
+#define INT32_MAX        (2147483647)
+
 #include "webrtc/system_wrappers/include/compile_assert_c.h"
 
 extern const int8_t kWebRtcSpl_CountLeadingZeros32_Table[64];

@@ -1,0 +1,20 @@
+if( CMAKE_BUILD_TYPE MATCHES Debug)
+	set(BUILD_SUFFIX "-debug")
+	string(TIMESTAMP BUILD_TS "%Y%m%d%H%M")
+
+	set(ECHAT_DEBUG	True CACHE BOOL "")
+	set(WRITE_LOG_FILE False CACHE BOOL "")
+	set(HAS_DATA_TEST False CACHE BOOL "")
+else()
+	set(BUILD_SUFFIX "-release")
+	string(TIMESTAMP BUILD_TS "%Y%m%d")
+	set(HAS_DATA_TEST False CACHE BOOL "")
+endif()
+
+set(BUILD_VERSION_STRING "1.0.1-${BUILD_TS}${BUILD_SUFFIX}" CACHE STRING "base build version")
+set(ECHAT_VERSION_STRING ${BUILD_VERSION_STRING} CACHE STRING "echat version with build type")
+set(HAL_VERSION_STRING ${ECHAT_VERSION_STRING} CACHE STRING "hal version")
+set(AUTO_ADJUST_AUDIO_QUALITY False CACHE BOOL "")
+
+message(${BUILD_VERSION_STRING})
+
